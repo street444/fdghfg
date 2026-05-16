@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Бухгалтерія — Сучасна система документів</title>
+  <link rel="stylesheet" href="styles/main.css">
+  <style>
+    .hero { min-height: calc(100vh - 64px); display: flex; align-items: center; justify-content: center; padding: 4rem 2rem; position: relative; overflow: hidden; }
+    .hero::before { content: ''; position: absolute; top: -40%; left: 50%; transform: translateX(-50%); width: 800px; height: 800px; background: radial-gradient(circle, rgba(59,130,246,.12) 0%, transparent 65%); pointer-events: none; }
+    .hero-content { max-width: 680px; text-align: center; position: relative; }
+    .hero-eyebrow { display: inline-flex; align-items: center; gap: 8px; background: rgba(59,130,246,.1); border: 1px solid rgba(59,130,246,.25); border-radius: 99px; padding: 5px 16px; font-size: .82rem; color: var(--accent); font-weight: 600; margin-bottom: 1.5rem; }
+    .hero h1 { font-size: clamp(2.5rem, 5vw, 3.8rem); margin-bottom: 1.25rem; }
+    .hero h1 span { background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .hero-desc { font-size: 1.1rem; color: var(--text-muted); line-height: 1.8; margin-bottom: 2.5rem; }
+    .hero-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .hero-features { margin-top: 4rem; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+    .hero-feature { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem; text-align: left; transition: all var(--transition); }
+    .hero-feature:hover { border-color: var(--accent); transform: translateY(-3px); }
+    .hero-feature-icon { font-size: 1.8rem; margin-bottom: .75rem; }
+    .hero-feature h3 { font-size: 1rem; margin-bottom: .4rem; }
+    .hero-feature p { font-size: .85rem; color: var(--text-muted); line-height: 1.6; }
+    .section { padding: 5rem 2rem; }
+    .section-container { max-width: 1100px; margin: 0 auto; }
+    .section-heading { text-align: center; margin-bottom: 3rem; }
+    .section-heading h2 { font-size: 2rem; margin-bottom: .5rem; }
+    .section-heading p { color: var(--text-muted); }
+    .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; }
+    .step { text-align: center; }
+    .step-num { width: 52px; height: 52px; border-radius: 50%; background: linear-gradient(135deg, var(--accent), var(--accent2)); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; font-weight: 700; margin: 0 auto 1rem; box-shadow: 0 0 20px var(--accent-glow); }
+    .step h3 { font-size: 1rem; margin-bottom: .4rem; }
+    .step p { font-size: .85rem; color: var(--text-muted); }
+    .footer { border-top: 1px solid var(--border); padding: 2rem; text-align: center; color: var(--text-muted); font-size: .85rem; }
+    @media (max-width: 768px) { .hero-features { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html" class="logo">
+    <span class="logo-star">⭐</span>
+    <span class="logo-text">Бухгалтерія</span>
+  </a>
+  <nav class="nav-links">
+    <a href="login.html" class="btn btn-outline">Увійти</a>
+    <a href="register.html" class="btn btn-primary">Реєстрація</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-eyebrow">⚡ Нова платформа для бізнесу</div>
+    <h1>Управляйте <span>документами</span> та фінансами легко</h1>
+    <p class="hero-desc">Сучасна система для роботи з документами, груповою співпрацею та бухгалтерськими звітами. Все в одному місці, без зайвої складності.</p>
+    <div class="hero-btns">
+      <a href="register.html" class="btn btn-primary btn-lg">Почати безкоштовно →</a>
+      <a href="login.html" class="btn btn-outline btn-lg">Увійти в акаунт</a>
+    </div>
+    <div class="hero-features">
+      <div class="hero-feature">
+        <div class="hero-feature-icon">👥</div>
+        <h3>Групова робота</h3>
+        <p>Створюйте публічні та приватні групи, запрошуйте колег</p>
+      </div>
+      <div class="hero-feature">
+        <div class="hero-feature-icon">📝</div>
+        <h3>Редактор документів</h3>
+        <p>Вбудований редактор з таблицями, форматуванням та автозбереженням</p>
+      </div>
+      <div class="hero-feature">
+        <div class="hero-feature-icon">📊</div>
+        <h3>Звіти та аналітика</h3>
+        <p>Ведіть бухгалтерські звіти та відстежуйте фінанси</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="background: var(--bg-card); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+  <div class="section-container">
+    <div class="section-heading">
+      <h2>Як це працює?</h2>
+      <p>Три кроки до повного контролю над документами</p>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h3>Зареєструйтесь</h3>
+        <p>Швидка реєстрація за 30 секунд. Ніякого верифікації.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h3>Створіть групу</h3>
+        <p>Зробіть приватну або публічну групу, запросіть колег за нікнеймом.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h3>Працюйте разом</h3>
+        <p>Завантажуйте файли, редагуйте документи, ведіть звіти.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <p>⭐ Бухгалтерія — Ваша система управління документами &nbsp;·&nbsp; Всі дані зберігаються локально</p>
+</footer>
+
+<div id="toast-container"></div>
+<div id="page-loader"><div class="loader-ring"></div></div>
+
+<script src="scripts/storage.js"></script>
+<script src="scripts/app.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const user = Storage.getCurrentUser();
+    if (user) {
+      document.querySelector('.nav-links').innerHTML = `
+        <span style="color:var(--text-muted);font-size:.9rem">Привіт, ${user.nick}</span>
+        <a href="dashboard.html" class="btn btn-primary">Відкрити панель →</a>`;
+    }
+  });
+</script>
+</body>
+</html>

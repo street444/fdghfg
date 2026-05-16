@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Реєстрація — Бухгалтерія</title>
+  <link rel="stylesheet" href="styles/main.css">
+  <link rel="stylesheet" href="styles/auth.css">
+</head>
+<body>
+
+<div class="auth-page">
+  <!-- ЛІВА ПАНЕЛЬ -->
+  <div class="auth-visual">
+    <div class="auth-visual-content">
+      <div class="auth-logo">⭐</div>
+      <div class="auth-brand">Бухгалтерія</div>
+      <p class="auth-tagline">Приєднайтесь до найсучаснішої системи управління документами та фінансів</p>
+      
+      <div class="auth-features">
+        <div class="auth-feature-item">
+          <div class="auth-feature-icon">✨</div>
+          <div class="auth-feature-text">
+            <strong>Легко почати</strong>
+            <span>Реєстрація займає всього 1 хвилину</span>
+          </div>
+        </div>
+        <div class="auth-feature-item">
+          <div class="auth-feature-icon">📱</div>
+          <div class="auth-feature-text">
+            <strong>На всіх пристроях</strong>
+            <span>Роботи в браузері будь-де</span>
+          </div>
+        </div>
+        <div class="auth-feature-item">
+          <div class="auth-feature-icon">🎉</div>
+          <div class="auth-feature-text">
+            <strong>Повністю безкоштовно</strong>
+            <span>Немає прихованих платежів</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ПРАВА ПАНЕЛЬ -->
+  <div class="auth-form-side">
+    <div class="auth-box">
+      <div class="auth-box-header">
+        <h2>Створити акаунт 🚀</h2>
+        <p>Приєднайтесь за 2 хвилини</p>
+      </div>
+
+      <form id="register-form" class="auth-form">
+        <div class="form-group">
+          <label for="reg-nick" class="form-label">Нікнейм</label>
+          <div class="input-wrap">
+            <span class="input-icon">👤</span>
+            <input type="text" id="reg-nick" class="form-input" placeholder="example_user" required>
+          </div>
+          <div id="nick-error" class="form-error"></div>
+          <small style="color:var(--text-faint);font-size:.75rem;margin-top:4px;display:block;">Мінімум 3 символи, літери та цифри</small>
+        </div>
+
+        <div class="form-group">
+          <label for="reg-email" class="form-label">Email</label>
+          <div class="input-wrap">
+            <span class="input-icon">📧</span>
+            <input type="email" id="reg-email" class="form-input" placeholder="you@example.com" required>
+          </div>
+          <div id="email-error" class="form-error"></div>
+        </div>
+
+        <div class="form-group">
+          <label for="reg-pass" class="form-label">Пароль</label>
+          <div class="input-wrap">
+            <span class="input-icon">🔐</span>
+            <input type="password" id="reg-pass" class="form-input" placeholder="••••••" required>
+            <span class="input-eye" onclick="Auth.togglePassword('reg-pass')">👁</span>
+          </div>
+          <div id="pass-error" class="form-error"></div>
+          <small style="color:var(--text-faint);font-size:.75rem;margin-top:4px;display:block;">Мінімум 6 символів</small>
+        </div>
+
+        <div class="form-group">
+          <label for="reg-pass2" class="form-label">Підтвердити пароль</label>
+          <div class="input-wrap">
+            <span class="input-icon">✓</span>
+            <input type="password" id="reg-pass2" class="form-input" placeholder="••••••" required>
+            <span class="input-eye" onclick="Auth.togglePassword('reg-pass2')">👁</span>
+          </div>
+          <div id="pass2-error" class="form-error"></div>
+        </div>
+
+        <label class="checkbox-label" style="margin-top:.5rem;">
+          <input type="checkbox" required>
+          Я згоден з умовами використання
+        </label>
+
+        <button type="submit" class="btn btn-primary btn-block btn-lg">Створити акаунт</button>
+      </form>
+
+      <div class="auth-divider">або</div>
+
+      <div class="auth-footer">
+        Уже маєте акаунт? <a href="login.html" style="color:var(--accent);font-weight:600;">Увійти</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST & LOADER -->
+<div id="toast-container"></div>
+<div id="page-loader"><div class="loader-ring"></div></div>
+
+<!-- MODALS -->
+<div id="confirm-modal" class="modal-overlay">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3 class="modal-title">Підтвердження</h3>
+      <button class="modal-close" id="confirm-cancel">✕</button>
+    </div>
+    <p id="confirm-text"></p>
+    <div class="modal-actions">
+      <button class="btn btn-outline" id="confirm-cancel">Скасувати</button>
+      <button class="btn btn-primary" id="confirm-ok">Так</button>
+    </div>
+  </div>
+</div>
+
+<script src="scripts/storage.js"></script>
+<script src="scripts/app.js"></script>
+<script src="scripts/auth.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => Auth.initRegister());
+</script>
+</body>
+</html>

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Панель керування — Бухгалтерія</title>
+  <link rel="stylesheet" href="styles/main.css">
+  <link rel="stylesheet" href="styles/dashboard.css">
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header">
+  <a href="index.html" class="logo">
+    <span class="logo-star">⭐</span>
+    <span class="logo-text">Бухгалтерія</span>
+  </a>
+  <nav class="nav-links">
+    <div class="user-avatar-pill">
+      <div id="user-avatar"></div>
+      <span id="user-display">Користувач</span>
+    </div>
+    <button id="btn-logout" class="btn btn-outline btn-sm">Вихід</button>
+  </nav>
+</header>
+
+<div class="dashboard-layout">
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-label">Меню</div>
+      <button class="sidebar-item active" onclick="Groups.renderMyGroups(); Groups.renderPublicGroups();">
+        <span class="sidebar-icon">📂</span>
+        <span>Мої групи</span>
+      </button>
+      <button class="sidebar-item" onclick="document.getElementById('public-tab').click();">
+        <span class="sidebar-icon">🌐</span>
+        <span>Публічні групи</span>
+      </button>
+    </div>
+
+    <div class="sidebar-divider"></div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-label">Дії</div>
+      <button id="btn-create-group" class="sidebar-item">
+        <span class="sidebar-icon">➕</span>
+        <span>Нова група</span>
+      </button>
+    </div>
+
+    <div class="sidebar-bottom">
+      <div class="sidebar-divider"></div>
+      <button class="sidebar-item" onclick="App.logout()">
+        <span class="sidebar-icon">🚪</span>
+        <span>Вихід</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="dashboard-main">
+    <!-- ПОШУК -->
+    <div class="search-bar">
+      <div class="search-input-wrap">
+        <div class="input-wrap">
+          <span class="input-icon">🔍</span>
+          <input type="text" id="group-search" class="form-input" placeholder="Пошук групи...">
+        </div>
+      </div>
+      <button id="btn-create-group" class="btn btn-primary">➕ Нова група</button>
+    </div>
+
+    <!-- TABS -->
+    <div class="tabs">
+      <button class="tab active" onclick="this.parentElement.querySelectorAll('.tab').forEach(t => t.classList.remove('active')); this.classList.add('active'); document.getElementById('my-groups').style.display='block'; document.getElementById('public-groups').style.display='none';">Мої групи</button>
+      <button id="public-tab" class="tab" onclick="this.parentElement.querySelectorAll('.tab').forEach(t => t.classList.remove('active')); this.classList.add('active'); document.getElementById('my-groups').style.display='none'; document.getElementById('public-groups').style.display='block';">Публічні групи</button>
+    </div>
+
+    <!-- МОЇ ГРУПИ -->
+    <div id="my-groups">
+      <div id="my-groups-list" class="grid-2"></div>
+    </div>
+
+    <!-- ПУБЛІЧНІ ГРУПИ -->
+    <div id="public-groups" style="display:none;">
+      <div id="public-groups-list" class="grid-2"></div>
+    </div>
+  </main>
+</div>
+
+<!-- TOAST & LOADER -->
+<div id="toast-container"></div>
+<div id="page-loader"><div class="loader-ring"></div></div>
+
+<!-- MODAL: НОВА ГРУПА -->
+<div id="create-group-modal" class="modal-overlay">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3 class="modal-title">Створити нову групу</h3>
+      <button class="modal-close" id="close-create-modal">✕</button>
+    </div>
+    
+    <form id="create-group-form">
+      <div class="form-group">
+        <label for="group-name" class="form-label">Назва групи</label>
+        <input type="text" id="group-name" class="form-input" placeholder="Економічний аналіз" required>
+      </div>
+
+      <div class="form-group">
+        <label for="group-desc" class="form-label">Опис</label>
+        <textarea id="group-desc" class="form-textarea" placeholder="Опис групи..."></textarea>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Тип групи</label>
+        <div class="radio-group">
+          <label class="radio-label">
+            <input type="radio" name="group-type" value="public" checked>
+            🌐 Публічна
+          </label>
+          <label class="radio-label">
+            <input type="radio" name="group-type" value="private">
+            🔒 Приватна
+          </label>
+        </div>
+      </div>
+
+      <div class="modal-actions">
+        <button type="button" class="btn btn-outline" id="close-create-modal">Скасувати</button>
+        <button type="submit" class="btn btn-primary">Створити</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- MODAL: ЗАПРОШЕННЯ УЧАСНИКА -->
+<div id="invite-modal" class="modal-overlay">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3 class="modal-title">Додати учасника до групи</h3>
+      <button class="modal-close" id="close-invite-modal">✕</button>
+    </div>
+    
+    <p style="color:var(--text-muted);font-size:.9rem;margin-bottom:1rem;">
+      Група: <strong id="invite-group-name"></strong>
+    </p>
+
+    <form id="invite-form">
+      <input type="hidden" id="invite-group-id">
+      
+      <div class="form-group">
+        <label for="invite-nick" class="form-label">Нікнейм користувача</label>
+        <div class="input-wrap">
+          <span class="input-icon">👤</span>
+          <input type="text" id="invite-nick" class="form-input" placeholder="username" required>
+        </div>
+      </div>
+
+      <div class="modal-actions">
+        <button type="button" class="btn btn-outline" id="close-invite-modal">Скасувати</button>
+        <button type="submit" class="btn btn-primary">Додати</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- MODAL: ПІДТВЕРДЖЕННЯ -->
+<div id="confirm-modal" class="modal-overlay">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3 class="modal-title">Підтвердження</h3>
+      <button class="modal-close" id="confirm-cancel">✕</button>
+    </div>
+    <p id="confirm-text"></p>
+    <div class="modal-actions">
+      <button class="btn btn-outline" id="confirm-cancel">Скасувати</button>
+      <button class="btn btn-danger" id="confirm-ok">Видалити</button>
+    </div>
+  </div>
+</div>
+
+<script src="scripts/storage.js"></script>
+<script src="scripts/app.js"></script>
+<script src="scripts/groups.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => Groups.init());
+</script>
+</body>
+</html>

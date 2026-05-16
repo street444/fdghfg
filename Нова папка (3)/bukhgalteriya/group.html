@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Група — Бухгалтерія</title>
+  <link rel="stylesheet" href="styles/main.css">
+  <link rel="stylesheet" href="styles/dashboard.css">
+  <link rel="stylesheet" href="styles/editor.css">
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header">
+  <a href="index.html" class="logo">
+    <span class="logo-star">⭐</span>
+    <span class="logo-text">Бухгалтерія</span>
+  </a>
+  <nav class="nav-links">
+    <div class="user-avatar-pill">
+      <div id="user-avatar"></div>
+      <span id="user-display">Користувач</span>
+    </div>
+    <button id="btn-logout" class="btn btn-outline btn-sm">Вихід</button>
+  </nav>
+</header>
+
+<div class="group-layout">
+  <!-- TOPBAR -->
+  <div class="group-topbar">
+    <button id="btn-back" class="btn btn-ghost">← Назад</button>
+    <div style="flex:1;">
+      <h2 id="group-title" style="font-size:1.2rem;margin:0;">Група</h2>
+      <p id="group-description" style="font-size:.82rem;color:var(--text-muted);margin:2px 0 0;">Опис</p>
+    </div>
+    <span id="group-type-badge" class="badge badge-public">🌐 Публічна</span>
+  </div>
+
+  <!-- MAIN SECTION (з контентом і редактором) -->
+  <div class="group-main">
+    <!-- РЕДАКТОР (ПРИХОВАНИЙ СПОЧАТКУ) -->
+    <section id="editor-section">
+      <!-- TOOLBAR РЕДАКТОРА -->
+      <div class="editor-topbar">
+        <span class="editor-doc-name">Документ</span>
+        <div style="margin-left:auto;display:flex;align-items:center;gap:1rem;">
+          <div id="save-indicator" class="save-indicator"></div>
+          <span id="word-count" style="font-size:.82rem;color:var(--text-muted);">Слів: 0</span>
+        </div>
+        <button id="btn-close-editor" class="btn btn-outline btn-sm">Закрити редактор ✕</button>
+      </div>
+
+      <!-- ПАНЕЛЬ ІНСТРУМЕНТІВ -->
+      <div class="editor-toolbar">
+        <button id="btn-undo" class="toolbar-btn" title="Скасувати">↶</button>
+        <button id="btn-redo" class="toolbar-btn" title="Повторити">↷</button>
+        <div class="toolbar-sep"></div>
+
+        <button id="btn-bold" class="toolbar-btn" title="Жирний (Ctrl+B)"><strong>B</strong></button>
+        <button id="btn-italic" class="toolbar-btn" title="Курсив (Ctrl+I)"><em>I</em></button>
+        <button id="btn-underline" class="toolbar-btn" title="Підкреслення">U̲</button>
+        <button id="btn-strike" class="toolbar-btn" title="Закреслення">S̶</button>
+
+        <div class="toolbar-sep"></div>
+        <button id="btn-ul" class="toolbar-btn" title="Список">≡</button>
+        <button id="btn-ol" class="toolbar-btn" title="Нумерований список">1.</button>
+
+        <div class="toolbar-sep"></div>
+        <button id="btn-align-left" class="toolbar-btn" title="Вліво">⬅</button>
+        <button id="btn-align-center" class="toolbar-btn" title="По центру">↔</button>
+        <button id="btn-align-right" class="toolbar-btn" title="Вправо">➡</button>
+
+        <div class="toolbar-sep"></div>
+        <button id="btn-h1" class="toolbar-btn" title="Заголовок 1">H1</button>
+        <button id="btn-h2" class="toolbar-btn" title="Заголовок 2">H2</button>
+
+        <div class="toolbar-sep"></div>
+        <select id="font-size" class="toolbar-select" title="Розмір шрифту">
+          <option value="1">Малий</option>
+          <option value="4" selected>Звичайний</option>
+          <option value="5">Великий</option>
+          <option value="6">Дуже великий</option>
+        </select>
+        <input type="color" id="btn-color" class="toolbar-color" title="Колір тексту" value="#e8edf4">
+
+        <div class="toolbar-sep"></div>
+        <button id="btn-table" class="toolbar-btn" title="Таблиця">⊞</button>
+        <button id="btn-clear-format" class="toolbar-btn" title="Очистити форматування">⚡</button>
+
+        <div style="margin-left:auto;display:flex;gap:.5rem;">
+          <button id="btn-export-txt" class="btn btn-outline btn-sm" title="Експорт у .txt">Експорт .txt</button>
+          <button id="btn-save-doc" class="btn btn-primary btn-sm">💾 Зберегти</button>
+        </div>
+      </div>
+
+      <!-- ОБЛАСТЬ РЕДАКТОРА -->
+      <div class="editor-wrap">
+        <div id="editor-content" class="editor-page" contenteditable="true" spellcheck="true"></div>
+      </div>
+    </section>
+
+    <!-- ОСНОВНА ПАНЕЛЬ З ГРУПОЮ -->
+    <div id="group-main" class="group-columns">
+      <!-- ЛІВА ПАНЕЛЬ: ДОКУМЕНТИ -->
+      <div>
+        <!-- ФІЛЬТРИ -->
+        <div class="filter-bar">
+          <div style="flex:1;">
+            <div class="input-wrap">
+              <span class="input-icon">🔍</span>
+              <input type="text" id="doc-search" class="form-input" placeholder="Пошук документів...">
+            </div>
+          </div>
+          <div class="filter-group">
+            <label>З:</label>
+            <input type="date" id="filter-date-from">
+          </div>
+          <div class="filter-group">
+            <label>До:</label>
+            <input type="date" id="filter-date-to">
+          </div>
+          <button id="btn-clear-filters" class="btn btn-outline btn-sm">Очистити</button>
+        </div>
+
+        <!-- КНОПКИ ДІЙ -->
+        <div style="display:flex;gap:.75rem;margin-bottom:1.5rem;flex-wrap:wrap;">
+          <button id="btn-new-doc" class="btn btn-primary">📝 Новий документ</button>
+          <button id="btn-upload-file" class="btn btn-primary">📁 Завантажити файл</button>
+        </div>
+
+        <!-- ТЕКСТОВІ ДОКУМЕНТИ -->
+        <div style="margin-bottom:2rem;">
+          <h3 style="font-size:.95rem;color:var(--text-muted);margin-bottom:.75rem;font-weight:600;text-transform:uppercase;letter-spacing:.04em;">📝 Документи</h3>
+          <div id="text-docs-list" class="docs-list"></div>
+        </div>
+
+        <!-- ФАЙЛИ -->
+        <div>
+          <h3 style="font-size:.95rem;color:var(--text-muted);margin-bottom:.75rem;font-weight:600;text-transform:uppercase;letter-spacing:.04em;">📁 Файли</h3>
+          <div id="file-docs-list" class="docs-list"></div>
+        </div>
+      </div>
+
+      <!-- ПРАВА ПАНЕЛЬ: УЧАСНИКИ -->
+      <div class="members-sidebar">
+        <div class="members-panel">
+          <div style="font-size:.9rem;font-weight:600;">👥 Учасники</div>
+          <div id="members-list" class="members-list"></div>
+          <button id="btn-invite" class="btn btn-outline btn-sm" style="width:100%;margin-top:1rem;">➕ Додати учасника</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST & LOADER -->
+<div id="toast-container"></div>
+<div id="page-loader"><div class="loader-ring"></div></div>
+
+<!-- MODAL: НОВИЙ ДОКУМЕНТ -->
+<div id="new-doc-modal" class="modal-overlay">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3 class="modal-title">Новий документ</h3>
+      <button class="modal-close" id="close-new-doc-modal">✕</button>
+    </div>
+    
+    <form id="new-doc-form">
+      <div class="form-group">
+        <label for="new-doc-name" class="form-label">Назва документа</label>
+        <input type="text" id="new-doc-name" class="form-input" placeholder="Звіт про дохід" required>
+      </div>
+
+      <div class="modal-actions">
+        <button type="button" class="btn btn-outline" id="close-new-doc-modal">Скасувати</button>
+        <button type="submit" class="btn btn-primary">Створити</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- MODAL: ЗАВАНТАЖЕННЯ ФАЙЛУ -->
+<div id="upload-modal" class="modal-overlay">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3 class="modal-title">Завантажити файл</h3>
+      <button class="modal-close" id="close-upload-modal">✕</button>
+    </div>
+
+    <div id="drop-zone" class="drop-zone">
+      <div class="drop-zone-icon">📥</div>
+      <strong>Перетягніть файл сюди</strong>
+      <p style="font-size:.85rem;margin-top:.4rem;">або натисніть для вибору</p>
+    </div>
+    <input type="file" id="upload-file-input" style="display:none;" accept=".pdf,.docx,.pptx,.xlsx,.txt,.png,.jpg,.jpeg,.gif">
+    <div id="upload-preview"></div>
+
+    <div class="modal-actions">
+      <button type="button" class="btn btn-outline" id="close-upload-modal">Скасувати</button>
+      <button type="button" class="btn btn-primary" id="btn-do-upload" disabled>Завантажити</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: ПЕРЕГЛЯД ДОКУМЕНТА -->
+<div id="view-modal" class="modal-overlay">
+  <div class="modal-box" style="max-width:600px;">
+    <div class="modal-header">
+      <h3 class="modal-title" id="view-modal-title">Документ</h3>
+      <button class="modal-close" id="close-view-modal">✕</button>
+    </div>
+    <div id="view-modal-body"></div>
+  </div>
+</div>
+
+<!-- MODAL: ТАБЛИЦЯ -->
+<div id="table-modal" class="modal-overlay">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3 class="modal-title">Вставити таблицю</h3>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Розмір таблиці</label>
+      <div class="table-size-inputs">
+        <div>
+          <label style="font-size:.8rem;color:var(--text-muted);">Рядків</label>
+          <input type="number" id="table-rows" class="form-input" value="3" min="1" max="20">
+        </div>
+        <div>
+          <label style="font-size:.8rem;color:var(--text-muted);">Стовпців</label>
+          <input type="number" id="table-cols" class="form-input" value="3" min="1" max="20">
+        </div>
+      </div>
+    </div>
+
+    <div id="table-preview"></div>
+
+    <div class="modal-actions">
+      <button type="button" class="btn btn-outline" id="close-table-modal">Скасувати</button>
+      <button type="button" class="btn btn-primary" id="btn-insert-table">Вставити</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: ЗАПРОШЕННЯ УЧАСНИКА -->
+<div id="invite-user-modal" class="modal-overlay">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3 class="modal-title">Додати учасника</h3>
+      <button class="modal-close" id="close-invite-user-modal">✕</button>
+    </div>
+    
+    <form id="invite-user-form">
+      <div class="form-group">
+        <label for="invite-user-nick" class="form-label">Нікнейм користувача</label>
+        <input type="text" id="invite-user-nick" class="form-input" placeholder="username" required>
+      </div>
+
+      <div class="modal-actions">
+        <button type="button" class="btn btn-outline" id="close-invite-user-modal">Скасувати</button>
+        <button type="submit" class="btn btn-primary">Додати</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- MODAL: ПІДТВЕРДЖЕННЯ -->
+<div id="confirm-modal" class="modal-overlay">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3 class="modal-title">Підтвердження</h3>
+      <button class="modal-close" id="confirm-cancel">✕</button>
+    </div>
+    <p id="confirm-text"></p>
+    <div class="modal-actions">
+      <button class="btn btn-outline" id="confirm-cancel">Скасувати</button>
+      <button class="btn btn-danger" id="confirm-ok">Видалити</button>
+    </div>
+  </div>
+</div>
+
+<script src="scripts/storage.js"></script>
+<script src="scripts/app.js"></script>
+<script src="scripts/documents.js"></script>
+<script src="scripts/editor.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    Documents.init();
+    Editor.init();
+    // Invite button
+    document.getElementById('btn-invite')?.addEventListener('click', () => {
+      document.getElementById('invite-user-modal').classList.add('modal-open');
+    });
+    document.getElementById('close-invite-user-modal')?.addEventListener('click', () => {
+      document.getElementById('invite-user-modal').classList.remove('modal-open');
+    });
+    document.getElementById('invite-user-modal')?.addEventListener('click', e => {
+      if (e.target.id === 'invite-user-modal') e.target.classList.remove('modal-open');
+    });
+    document.getElementById('invite-user-form')?.addEventListener('submit', e => {
+      e.preventDefault();
+      const nick = document.getElementById('invite-user-nick').value.trim();
+      if (!nick) return;
+      const user = Storage.getUserByNick(nick);
+      if (!user) { App.toast('Користувача не знайдено', 'error'); return; }
+      const group = Documents.currentGroup;
+      if (group.members.some(m => m.nick.toLowerCase() === nick.toLowerCase())) {
+        App.toast('Вже є учасником', 'warning');
+        return;
+      }
+      group.members.push({ nick, role: 'member', joinedAt: Date.now() });
+      Storage.updateGroup(group);
+      document.getElementById('invite-user-modal').classList.remove('modal-open');
+      App.toast(nick + ' додано до групи', 'success');
+      Documents.renderMembers();
+    });
+  });
+</script>
+</body>
+</html>

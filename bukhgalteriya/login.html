@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Вхід — Бухгалтерія</title>
+  <link rel="stylesheet" href="styles/main.css">
+  <link rel="stylesheet" href="styles/auth.css">
+</head>
+<body>
+
+<div class="auth-page">
+  <!-- ЛІВА ПАНЕЛЬ -->
+  <div class="auth-visual">
+    <div class="auth-visual-content">
+      <div class="auth-logo">⭐</div>
+      <div class="auth-brand">Бухгалтерія</div>
+      <p class="auth-tagline">Сучасна система управління документами та фінансів для Вашого бізнесу</p>
+      
+      <div class="auth-features">
+        <div class="auth-feature-item">
+          <div class="auth-feature-icon">🔒</div>
+          <div class="auth-feature-text">
+            <strong>Безпека</strong>
+            <span>Всі дані зберігаються локально</span>
+          </div>
+        </div>
+        <div class="auth-feature-item">
+          <div class="auth-feature-icon">⚡</div>
+          <div class="auth-feature-text">
+            <strong>Швидкість</strong>
+            <span>Без затримок, офлайн режим</span>
+          </div>
+        </div>
+        <div class="auth-feature-item">
+          <div class="auth-feature-icon">👥</div>
+          <div class="auth-feature-text">
+            <strong>Співпраця</strong>
+            <span>Групи та спільні проєкти</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ПРАВА ПАНЕЛЬ (форма) -->
+  <div class="auth-form-side">
+    <div class="auth-box">
+      <div class="auth-box-header">
+        <h2>З поверненням! 👋</h2>
+        <p>Введіть ваші дані для входу</p>
+      </div>
+
+      <form id="login-form" class="auth-form">
+        <div class="form-group">
+          <label for="login-nick" class="form-label">Нікнейм</label>
+          <div class="input-wrap">
+            <span class="input-icon">👤</span>
+            <input type="text" id="login-nick" class="form-input" placeholder="Ваш нікнейм" autocomplete="username" required>
+          </div>
+          <div id="login-nick-error" class="form-error"></div>
+        </div>
+
+        <div class="form-group">
+          <label for="login-pass" class="form-label">Пароль</label>
+          <div class="input-wrap">
+            <span class="input-icon">🔐</span>
+            <input type="password" id="login-pass" class="form-input" placeholder="••••••" autocomplete="current-password" required>
+            <span class="input-eye" onclick="Auth.togglePassword('login-pass')">👁</span>
+          </div>
+          <div id="login-pass-error" class="form-error"></div>
+        </div>
+
+        <div class="remember-row">
+          <label class="checkbox-label">
+            <input type="checkbox" id="remember-me">
+            Запам'ятати мене
+          </label>
+          <a href="#" style="color:var(--accent);font-size:.85rem;">Забув пароль?</a>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block btn-lg">Увійти</button>
+      </form>
+
+      <div class="auth-divider">або</div>
+
+      <div class="auth-footer">
+        Нові тут? <a href="register.html" style="color:var(--accent);font-weight:600;">Створити акаунт</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST & LOADER -->
+<div id="toast-container"></div>
+<div id="page-loader"><div class="loader-ring"></div></div>
+
+<!-- MODALS -->
+<div id="confirm-modal" class="modal-overlay">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3 class="modal-title">Підтвердження</h3>
+      <button class="modal-close" id="confirm-cancel">✕</button>
+    </div>
+    <p id="confirm-text"></p>
+    <div class="modal-actions">
+      <button class="btn btn-outline" id="confirm-cancel">Скасувати</button>
+      <button class="btn btn-primary" id="confirm-ok">Так</button>
+    </div>
+  </div>
+</div>
+
+<script src="scripts/storage.js"></script>
+<script src="scripts/app.js"></script>
+<script src="scripts/auth.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => Auth.initLogin());
+</script>
+</body>
+</html>
